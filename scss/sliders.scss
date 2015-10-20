@@ -1,0 +1,27 @@
+@import "component";
+.sliders {
+	position: relative;
+	width: 100%; height: 100%;
+	display: inline-block;
+	margin: 0; padding: 0;
+	list-style: none;
+	li {
+		position: absolute; top: 104px;
+		width: 380px; height: 596px;
+		cursor: pointer;
+		@include transition(all 1s linear);
+		&:nth-child(2) {z-index: 1;background: red;}
+		&:nth-child(3) {z-index: 2;background: green;}
+		&:nth-child(4) {top:0;z-index: 3;background: gray;}
+		&:nth-child(5) {z-index: 2;background: green;}
+		&:nth-child(6) {z-index: 1;background: red;}
+		//z-index has to be 1,becase others' lis has no setted left
+		&.maskLayer-left {z-index: 1; left: 0;background: yellow;}
+		&.maskLayer-right {z-index: 0;background: red;}
+	}
+	.presentation {
+		z-index: 3;
+		width: 512px;height: 804px;
+		@include transition(all 1s linear);
+	};
+}
