@@ -8,12 +8,61 @@ $.fn.sliders = function(options) {
 			this.addEventListener();
 			//this.setInterval();
 		},
+		getScaleSize: function() {
+			var ratios = [
+					0.5625, 0.65625,//16:9
+					0.75, 0.84375//4:3
+				],
+				widths = [1920, 1280],
+				sWidth = screen.width,
+				sHeight = screen.height,
+				ratio = sHeight / sWidth;
+			if(ratio < ratios[1]) {
+				var bSliderHeight = (800 / 1920) * sWidth,
+					bSliderWidth = (500 / 800) * bSliderHeight,
+					sSliderWidth = bSliderWidth * 0.8,
+					sSliderHeight = bSliderHeight * 0.8;
+			}else {
+				var bSliderHeight = (600 / 1280) * sWidth,
+					bSliderWidth = (375 / 600) * bSliderHeight,
+					sSliderWidth = bSliderWidth * 0.8,
+					sSliderHeight = bSliderHeight * 0.8;
+			}
+			return [bSliderWidth, bSliderHeight, sSliderWidth, sSliderHeight];
+		},
 		createStyle: function() {
-			var cssArr = [];
-			$.each([0, "320px", "650px", "1112px", "1432px", "1432px"], 
-				function(i, val) {
+			var cssArr = [],
+				size = this.getScaleSize();
+			cssArr.push([
+				".sliders {",
+					"opacity: 1;",
+					"width:" + (size[0] + 4*size[2] - 2*(1/8 + 1/4)*size[2]) + "px;",
+					"height:" + size[3] + "px;",
+				"}", 
+				".sliders li{",
+					"width:" + size[2] + "px;",
+					"height:" + size[3] + "px;",
+				"}",
+				".sliders .presentation{",
+					"top:" + (-(size[1] - size[3]) / 2) + "px;",
+					"width:" + size[0] + "px;",
+					"height:" + size[1] + "px;",
+				"}",
+			].join(""));
+			var temp = [
+				(1-1/8)*size[2], (1-1/4)*size[2],
+				size[0]-(1/4)*size[2], (1-1/8)*size[2]
+			];
+			$.each([
+				0,
+				temp[0],
+				temp[0] + temp[1],
+				temp[0] + temp[1] + temp[2],
+				temp[0] + temp[1] + temp[2] + temp[3],
+				temp[0] + temp[1] + temp[2] + temp[3]
+			], function(i, val) {
 					cssArr.push([
-						".sliders li:nth-child(",i+2,"){left:",val,"}"
+						".sliders li:nth-child(",i+2,"){left:",val,"px}"
 					].join(""));
 				}.bind(this)
 			);
@@ -25,28 +74,42 @@ $.fn.sliders = function(options) {
 			var $this = this.$el;
 
 			$this.on("click", "li", function(ev) {
-				var prevSize = $(ev.target).prevAll().size();
+				var prevSize = $(ev.target).prevAll().size(), callback = null;
 				switch(prevSize) {
 					case 1: {
-						this.spinLeft();
+						this.spinRight(1);
+						setTimeout(function() {
+							this.spinRight();	
+						}.bind(this), 1000);
+						callback = this.spinRight;
 						break;
 					}
 					case 2: {
-						this.spinLeft();
+						this.spinRight(1);
+						callback = this.spinRight;
 						break;
 					}
 					case 3: {
 						break;
 					}
 					case 4: {
-						this.spinRight();
+						this.spinLeft();
+						callback = this.spinLeft;
 						break;
 					}
 					case 5: {
-						this.spinRight();
+						this.spinLeft();
+						setTimeout(function() {
+							this.spinLeft();	
+						}.bind(this), 1000);
+						callback = this.spinLeft;
 						break;
 					}
 				}
+				if(callback) {
+					this.clearInterval();
+					this.setInterval(callback.bind(this));
+				}				
 			}.bind(this));
 		},
 		spinRight: function() {
@@ -113,10 +176,11 @@ $.fn.sliders = function(options) {
 			
 			this.spinLeft();
 		},
-		setInterval: function() {
+		setInterval: function(callback) {
+			callback = callback ? callback() : this.spinLeft();
 			this.timer = setInterval(function() {
-				this.spin();
-			}.bind(this), options.intervalTime);
+				callback();
+			}, options.intervalTime);
 		},
 		clearInterval: function() {
 			clearInterval(this.timer);
@@ -126,11 +190,4 @@ $.fn.sliders = function(options) {
 }
 $(function(){
 	$(".sliders").sliders();
-	/*$(".presentation").on(
-						"transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", 
-						function(){
-							console.log("ddd");
-							$(this).css("z-index", 1);
-						}
-					);*/
 });
