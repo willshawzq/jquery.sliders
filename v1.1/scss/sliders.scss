@@ -1,0 +1,96 @@
+@import "component";
+div.container {
+	//width:1812px; height: 804px;
+	margin: 184px auto 0; text-align: center;
+	@include transition(margin 1.6s ease-out .3s);
+}
+iframe {width: 100%; height: 100%;}
+.middle {position: relative;top: 50%; left: 50%; display: block; @include transform(translateY(-50%) translateX(-50%));}
+
+.sliders {
+	position: relative;
+	box-sizing: border-box;
+	//width: 100%; height: 596px;
+	display: inline-block;
+	margin: 0; padding: 0;
+	list-style: none; opacity: 0;
+	box-shadow: 5px 5px 36px rgba(0, 0, 0, .4),-5px -5px 36px rgba(0, 0, 0, .2);
+	@include transition(opacity 1s linear);
+	li {
+		$borderWidth: 4px;
+		position: absolute; top: 0;
+		box-sizing: border-box;
+		//width: 380px; height: 596px;
+		cursor: pointer; border: $borderWidth solid #062e3d;
+		background: url(../image/bg.png);
+		@include transition(all 1s linear);
+		&.slider-1 {z-index: 1;}
+		&.slider-2 {z-index: 2;}
+		&.slider-3 {z-index: 3;}
+		&.slider-4 {z-index: 2;}
+		&.slider-5 {z-index: 1;}
+		//z-index has to be 1,becase others' lis has no setted left
+		&.maskLayer-left {z-index: 1; left: 0;}
+		&.maskLayer-right {z-index: 0;;}
+
+		.slider-content {height: 100%;}
+		.slider-titleBar {
+			//height: 64px; margin-top: -64px;
+			background-color: #06cdff;
+			.leftBlock, .rightBlock {opacity: 0; @include transition(opacity 1s linear);}
+			@include transition(all 1s linear);
+			.titleBar-name {font-size: 30px;font-family: "YiHei";color: #fff;}
+		}
+		&.slider-3 {
+			$color: #ffb527;
+			z-index: 3; //top: -104px;
+			//width: 512px;height: 804px;
+			border-color: $color;
+			box-shadow: 5px 5px 36px rgba(0, 0, 0, .5),-5px -5px 36px rgba(0, 0, 0, .2);
+			@include transition(all 1s linear);
+
+			.slider-titleBar {
+				position: relative;
+				//height: 80px; margin-top: -88px;
+				background-color: $color;
+				//@include transition(all 1s linear);
+				.titleBar-name {font-size: 40px;}
+				%innerBlock {
+					position: absolute; box-sizing: border-box;
+					display: inline-block; top: 0;
+					width: 10px; height: 100%;
+					background-color: $color; opacity: 1;
+					@include transition(opacity 1s linear);
+				}
+				%innerTriangle {
+					position: absolute; box-sizing: border-box;
+					display: inline-block; content: "";
+					width: 0; height: 0;
+				}
+				.leftBlock {
+					@extend %innerBlock;
+					left: -14px;
+					&::after {
+						@extend %innerTriangle;
+						bottom: -8px;
+						right: 0;
+						border-top: 8px solid #815702;
+						border-left: 9px solid transparent;
+					}
+				}
+				.rightBlock {
+					@extend %innerBlock;
+					right: -14px;
+					&::before {
+						@extend %innerTriangle;
+						top: -8px;
+						left: 0;
+						border-bottom: 8px solid #815702;
+						border-right: 9px solid transparent;
+					}
+				}
+			}
+		};
+	}
+
+}
