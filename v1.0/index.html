@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" href="scss/sliders.css">
+</head>
+<body>
+	<div class="container">
+		<ul class="sliders">
+			<li data-index="0" class="maskLayer-left"></li>
+			<li data-index="1" class="slider-1">
+				<div class="slider-content">
+					1
+				</div>
+				<div class="slider-titleBar">
+					<span class="middle titleBar-name">大事件</span>
+					<div class="leftBlock"></div>
+					<div class="rightBlock"></div>
+				</div>
+			</li>
+			<li data-index="2" class="slider-2">
+				<div class="slider-content">
+					2
+				</div>
+				<div class="slider-titleBar">
+					<span class="middle titleBar-name">test</span>
+					<div class="leftBlock"></div>
+					<div class="rightBlock"></div>
+				</div>
+			</li>
+			<li data-index="3" class="slider-3 presentation">
+				<div class="slider-content">
+					3
+				</div>
+				<div class="slider-titleBar">
+					<span class="middle titleBar-name">test</span>
+					<div class="leftBlock"></div>
+					<div class="rightBlock"></div>
+				</div>
+			</li>
+			<li data-index="4" class="slider-4">
+				<div class="slider-content">
+					4
+				</div>
+				<div class="slider-titleBar">
+					<span class="middle titleBar-name">test</span>
+					<div class="leftBlock"></div>
+					<div class="rightBlock"></div>
+				</div>
+			</li>
+			<li data-index="5" class="slider-5">
+				<div class="slider-content">
+					5
+				</div>
+				<div class="slider-titleBar">
+					<span class="middle titleBar-name">test</span>
+					<div class="leftBlock"></div>
+					<div class="rightBlock"></div>
+				</div>
+			</li>
+			<li data-index="10" class="maskLayer-right"></li>
+		</ul>
+	</div>
+	<script src="js/jquery.js"></script>
+	<script src="js/sliders.js"></script>
+	<script>
+		$(function(){
+			$(".sliders").sliders();
+			$(".container").css("margin", "104px auto 0")
+		});
+	</script>
+</body>
+</html>
