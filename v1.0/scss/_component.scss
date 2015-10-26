@@ -1,0 +1,28 @@
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {@content;}
+  @-moz-keyframes #{$name} {@content;}
+  @-ms-keyframes #{$name} {@content;}
+  @-o-keyframes #{$name} {@content;}
+  @keyframes #{$name} {@content;}
+}
+@mixin transform($params...) {
+  -webkit-transform: $params;
+  -moz-transform: $params;
+  -ms-transform: $params;
+  -o-transform: $params;
+  transform: $params;
+}
+@mixin transition($params...) {
+  -webkit-transition: $params;
+  -moz-transition: $params;
+  -ms-transition: $params;
+  -o-transition: $params;
+  transition: $params;
+}
+@mixin animation($params...) {
+  -webkit-animation: $params;
+  -moz-animation: $params;
+  -ms-animation: $params;
+  -o-animation: $params;
+  animation: $params;
+}
